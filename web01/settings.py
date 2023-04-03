@@ -26,6 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 env_mode = os.environ.get('ENV_MODE')
+if(env_mode is None): env_mode = 'local'
+
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, '.env.' + env_mode)
 )
@@ -48,6 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'common_core.apps.CommonCoreConfig',
+    'diary.apps.DiaryConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,10 +90,7 @@ WSGI_APPLICATION = 'web01.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-if(env_mode == 'dev'):
-    DATABASE_ROUTERS = ['web01.routers.DevDBRouter']
-elif(env_mode == 'local'):
-    DATABASE_ROUTERS = ['web01.routers.LocalDBRouter']
+DATABASE_ROUTERS = ['web01.routers.DBRouter']
 
 DATABASES = {
     'default': {},
@@ -101,7 +103,7 @@ DATABASES = {
         'NAME': 'testdb',
         'USER': 'pguser',
         'PASSWORD': env('dbpassword'),
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432'
     }
 }
