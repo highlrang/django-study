@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework_simplejwt import views as jwtViews
 
 urlpatterns = [
-    path('diary/', include('diary.urls')),
     path('admin/', admin.site.urls),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/', include('dj_rest_auth.registration.urls')),
+    path('auth/', include('allauth.urls')),
+    path('token/', jwtViews.TokenObtainPairView.as_view()),
+    path('token/verify', jwtViews.TokenVerifyView.as_view()),
+    path('token/refresh', jwtViews.TokenRefreshView.as_view()),
+    path('diary/', include('diary.urls'))
 ]

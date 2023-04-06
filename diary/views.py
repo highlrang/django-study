@@ -1,30 +1,19 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import viewsets
 from diary.serializers import DiarySerializer
 from diary.models import *
 
 
 # Create your views here.
-class DiaryAPI(generics.CreateAPIView):
+class DiaryView(viewsets.ModelViewSet):
     queryset = Diary.objects.all()
     serializer_class = DiarySerializer
+    # lookup_field
     # authentication_classes = [TokenAuthentication]
-    # authentication_classes 및 filter에서 담당하기
+    # authentication_classes, permission_class ...
 
-'''
-    def get(self, request, *args, **kwargs):
-        print("get 요청")
-        print(request)
-        print(*args)
-        print(**kwargs)
-        return super().get(request, *args, **kwargs)
+# get_object
+# get_queryset 을 통해 동적으로 queryset 설정 가능
 
-    def post(self, request, *args, **kwargs):
-        print('post 요청')
-        print(request)
-        print(*args)
-        print(**kwargs)
-        return super().post(request, *args, **kwargs)
-'''
-    
+
 

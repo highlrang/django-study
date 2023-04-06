@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 import environ
@@ -50,8 +51,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+# allauth.account
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'rest_framework_simplejwt',
+    
     'common_core.apps.CommonCoreConfig',
+    'auth_jwt.apps.AuthJwtConfig',
     'diary.apps.DiaryConfig',
 ]
 
@@ -126,6 +135,26 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+# JWT
+REST_USE_JWT = True
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    
+    'AUTH_HEADERS_TYPES': ('Bearer', ),
+    'AUTH_HEADER_NAME': 'AUTHORIZATION',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
 
 
 # Internationalization

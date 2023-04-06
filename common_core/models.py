@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 
@@ -6,7 +7,7 @@ class BaseEntity(models.Model):
     update_date = models.DateTimeField(auto_now=True)
     insert_operator = models.CharField(default='SYSTEM', max_length=20)
     update_operator = models.CharField(default='SYSTEM', max_length=20)
-    delete_yn = models.BooleanField(default=False)
+    delete_yn = models.CharField(default='N', max_length=1)
 
     class Meta:
         abstract = True
