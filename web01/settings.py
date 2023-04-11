@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     
     'common_core.apps.CommonCoreConfig',
-    'auth_jwt.apps.AuthJwtConfig',
+    'member.apps.MemberConfig',
     'diary.apps.DiaryConfig',
 ]
 
@@ -155,6 +155,8 @@ SIMPLE_JWT = {
 
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
+
+AUTH_USER_MODEL = "member.User"
 
 
 # Internationalization

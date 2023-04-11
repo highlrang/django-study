@@ -11,10 +11,13 @@ class DiarySerializer(serializers.ModelSerializer):
 
 class DiaryCategorySerializer(LoginRequiredMixin, serializers.Serializer):
     category_name = serializers.CharField()
-    diary_name = serializers.CharField()
+    diary_name = serializers.ListField(child=DiarySerializer())
 
-    def create(self, validated_data):
-        return super().create(validated_data)
+    # diary = DiarySerializer()
+
+
+    # def create(self, validated_data):
+    #     return super().create(validated_data)
     
     # 카테고리 하나에 여러 일정들 일대다 관계이기 때문에 중간 테이블 X
     # 카테고리만 생성할 수도 있지
