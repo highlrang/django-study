@@ -25,5 +25,5 @@ urlpatterns = [
     path('token/', jwtViews.TokenObtainPairView.as_view()),
     path('token/verify', jwtViews.TokenVerifyView.as_view()),
     path('token/refresh', jwtViews.TokenRefreshView.as_view()),
-    path('diary/', include('diary.urls'))
+    path('', include('diary.urls'))
 ]
