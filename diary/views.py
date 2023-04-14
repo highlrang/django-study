@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.decorators import action
-from common_core.dtos import ApiResponse
+from rest_framework.exceptions import APIException
+from common_core.dtos import ApiResponse, ErrorCode
 from diary.dtos import CategoryDiary
 from diary.serializers import DiarySerializer, DiaryCategorySerializer
+from common_core.exceptions import ApiException
 from diary.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -31,8 +33,12 @@ class DiaryView(viewsets.ModelViewSet):
 # get_object pk detail
 # get_queryset 을 통해 동적으로 queryset 설정 가능
 
-class CategoryDiaryView(LoginRequiredMixin, viewsets.ViewSet):
+class CategoryDiaryView(viewsets.ViewSet): # LoginRequiredMixin
     serializer_class = DiaryCategorySerializer #(many=True)
+
+    def retrieve(self, request, *args, **kwargs):
+        raise ApiException(ErrorCode.DATA_NOT_FOUND)
+    
 
     # @action(detail=False, methods=['post'])
     def create(self, request):
