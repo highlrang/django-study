@@ -11,6 +11,10 @@ from common_core.exceptions import ApiException
 from diary.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+import logging
+
+
+
 # Create your views here.
 class DiaryView(viewsets.ModelViewSet):
     queryset = Diary.objects.all()
@@ -19,14 +23,26 @@ class DiaryView(viewsets.ModelViewSet):
     # authentication_classes = [TokenAuthentication]
     # authentication_classes, permission_class ...
 
+    def list(self, request, *args, **kwargs):
+
+        diary_list = Diary.objects.all().order_by('start_date', 'end_date')
+        return ApiResponse.success(diary_list)
+        # return super().list(request, *args, **kwargs)
+
     def retrieve(self, request, *args, **kwargs):
         pk = kwargs['pk']
+
+        logger = logging.getLogger('django')
+        logger.info('로그내용')
+        logging.error('======에러 발생======')
+
         diary = self.get_object()
         serializer = DiarySerializer(diary)
         
         print(serializer.data)
-        Response(serializer.data)
+
         return Response({"data": serializer.data})
+    
         
 
 
@@ -66,7 +82,7 @@ class CategoryDiaryView(viewsets.ViewSet): # LoginRequiredMixin
             # category_id
             apiResponse = ApiResponse.success(diary)
 
-        return Response(apiResponse)
+        return Response(apiResponse.__dict__)
 
         # Diary 및 Category 저장
         # CategoryDiary()
